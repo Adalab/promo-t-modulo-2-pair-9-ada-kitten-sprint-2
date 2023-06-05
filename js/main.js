@@ -87,13 +87,24 @@ function addNewKitten(event) {
     const valueDesc = inputDesc.value;
     const valuePhoto = inputPhoto.value;
     const valueName = inputName.value;
+    const newKittenDataObject = 
+       {image: '',
+        name: '', 
+        description: '',
+        race: ''};
+    kittenDataList.push(newKittenDataObject);
     if (valueDesc === "" || valuePhoto === "" || valueName === "") {
         labelMessageError.innerHTML = "¡Uy! parece que has olvidado algo";
     }
     else if (valueDesc !== "" && valuePhoto !== "" && valueName !== "") {
-        labelMessageError.innerHTML = "";
+        labelMessageError.innerHTML = "¡Mola! ¡Un nuevo gatito en Adalab!";
     }
-}
+};
+
+console.log(addNewKitten);
+
+    
+
 //Cancelar la búsqueda de un gatito
 function cancelNewKitten(event) {
     event.preventDefault();
@@ -101,6 +112,7 @@ function cancelNewKitten(event) {
     inputDesc.value = "";
     inputPhoto.value = "";
     inputName.value = "";
+    inputRace.value = "";
 }
 
 //Filtrar por descripción
