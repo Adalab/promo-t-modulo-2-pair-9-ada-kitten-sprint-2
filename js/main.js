@@ -42,7 +42,9 @@ let kittenDataList = [];
 const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
 
 if (kittenListStored) {
-  renderKitten();
+    console.log(kittenListStored);
+  renderKittenList(kittenListStored);
+  kittenDataList = kittenListStored;
 } else {
   fetch(SERVER_URL)
     .then((response) => response.json())
@@ -82,7 +84,6 @@ function renderKittenList(kittenDataList) {
   for (const kittenItem of kittenDataList) {
     listElement.innerHTML += renderKitten(kittenItem);
   }
-  return renderKitten;
 }
 
 //Mostrar/ocultar el formulario
@@ -101,6 +102,11 @@ function handleClickNewCatForm(event) {
     hideNewCatForm();
   }
 }
+
+   let valueDesc = inputDesc.value;
+   let valuePhoto = inputPhoto.value;
+   let valueName = inputName.value;
+
 //Adicionar nuevo gatito
 function addNewKitten(event) {
   event.preventDefault();
@@ -108,6 +114,7 @@ function addNewKitten(event) {
   const newImage = inputPhoto.value;
   const newDescription = inputDesc.value;
   const newName = inputName.value;
+  const newRace = inputRace.value;
   //nuevo objeto con la info del gatito
   const newKittenDataObject = {
     image: newImage,
@@ -121,6 +128,9 @@ function addNewKitten(event) {
   } else if (valueDesc !== '' && valuePhoto !== '' && valueName !== '') {
     labelMessageError.innerHTML = '¡Mola! ¡Un nuevo gatito en Adalab!';
   }*/
+
+
+
   fetch(`https://dev.adalab.es/api/kittens/${GITHUB_USER}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -129,17 +139,9 @@ function addNewKitten(event) {
     .then((response) => response.json())
     .then((data) => {
       if (data.success) {
-        //Completa y/o modifica el código:
-        //Agrega el nuevo gatito al listado
-        //Guarda el listado actualizado en el local stoarge
-        //Visualiza nuevamente el listado de gatitos
         kittenDataList.push(newKittenDataObject);
         localStorage.setItem('newKitten', JSON.stringify(newKittenDataObject));
-        renderKitten();
-        valueDesc = '';
-        valueName = '';
-        valuePhoto = '';
-        valueRace = '';
+        renderKittenList(kittenDataList);
         labelMessageError.innerHTML = '¡Mola! ¡Un nuevo gatito en Adalab!';
       } else if (valueDesc === '' || valuePhoto === '' || valueName === '') {
         labelMessageError.innerHTML = '¡Uy! parece que has olvidado algo';
@@ -169,7 +171,7 @@ function filterKitten(event) {
 }
 
 //Mostrar el litado de gatitos en el HTML
-renderKittenList(kittenDataList);
+
 
 //Eventos
 linkNewFormElememt.addEventListener('click', handleClickNewCatForm);
