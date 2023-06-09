@@ -24,7 +24,7 @@ let kittenDataList = [];
 const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
 
 if (kittenListStored) {
-    console.log(kittenListStored);
+  console.log(kittenListStored);
   renderKittenList(kittenListStored);
   kittenDataList = kittenListStored;
 } else {
@@ -44,39 +44,44 @@ if (kittenListStored) {
 
 //Funciones
 function renderKitten(kittenData) {
-    const liElement = document.createElement('li');
-    liElement.classList.add('card');
-    const articleElement = document.createElement('article');
-    liElement.appendChild(articleElement);
-    const imgElement = document.createElement('img');
-    imgElement.classList.add('card_img');
-    imgElement.src = kittenData.image;
-    const h3Title = document.createElement('h3');
-    h3Title.classList.add('card_title');
-    articleElement.appendChild(h3Title);
+  const liElement = document.createElement('li');
+  liElement.classList.add('card');
 
-    return liElement;
-//   const kitten = `<li class="card">
-//     <article>
-//       <img
-//         class="card_img"
-//         src=${kittenData.image}
-//         alt="gatito"
-//       />
-//       <h3 class="card_title">${kittenData.name}</h3>
-//       <h3 class="card_race">${kittenData.race}</h3>
-//       <p class="card_description">
-//       ${kittenData.desc}
-//       </p>
-//     </article>
-//     </li>`;
-//   return kitten;
+  const articleElement = document.createElement('article');
+  liElement.appendChild(articleElement);
+
+  const cardImg = document.createElement('img');
+  cardImg.classList.add('card_img');
+  cardImg.src = kittenData.image;
+  cardImg.alt = 'gatito';
+  articleElement.appendChild(cardImg);
+
+  const nameTitle = document.createElement('h3');
+  nameTitle.classList.add('card_title');
+  const nameText = document.createTextNode(kittenData.name);
+  nameTitle.appendChild(nameText);
+  articleElement.appendChild(nameTitle);
+
+  const raceTitle = document.createElement('h3');
+  raceTitle.classList.add('card_race');
+  const raceText = document.createTextNode(kittenData.race);
+  raceTitle.appendChild(raceText);
+  articleElement.appendChild(raceTitle);
+
+  const description = document.createElement('p');
+  description.classList.add('card_description');
+  const descText = document.createTextNode(kittenData.desc);
+  description.appendChild(descText);
+  articleElement.appendChild(description);
+
+  return liElement;
 }
 
 function renderKittenList(kittenDataList) {
   listElement.innerHTML = '';
   for (const kittenItem of kittenDataList) {
-    listElement.innerHTML += renderKitten(kittenItem);
+    const liElement = renderKitten(kittenItem);
+    listElement.appendChild(liElement);
   }
 }
 
@@ -97,9 +102,9 @@ function handleClickNewCatForm(event) {
   }
 }
 
-   let valueDesc = inputDesc.value;
-   let valuePhoto = inputPhoto.value;
-   let valueName = inputName.value;
+let valueDesc = inputDesc.value;
+let valuePhoto = inputPhoto.value;
+let valueName = inputName.value;
 
 //Adicionar nuevo gatito
 function addNewKitten(event) {
@@ -116,14 +121,6 @@ function addNewKitten(event) {
     desc: newDescription,
     race: newRace,
   };
-  /*kittenDataList.push(newKittenDataObject);
-  if (valueDesc === '' || valuePhoto === '' || valueName === '') {
-    labelMessageError.innerHTML = '¡Uy! parece que has olvidado algo';
-  } else if (valueDesc !== '' && valuePhoto !== '' && valueName !== '') {
-    labelMessageError.innerHTML = '¡Mola! ¡Un nuevo gatito en Adalab!';
-  }*/
-
-
 
   fetch(`https://dev.adalab.es/api/kittens/${GITHUB_USER}`, {
     method: 'POST',
@@ -165,7 +162,6 @@ function filterKitten(event) {
 }
 
 //Mostrar el litado de gatitos en el HTML
-
 
 //Eventos
 linkNewFormElememt.addEventListener('click', handleClickNewCatForm);
